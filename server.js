@@ -3,6 +3,11 @@ import bodyParser from 'body-parser';
 import './utils/dotenv';
 import healthCheck from './routes/healthCheck';
 import homeRoute from './routes/homeRoute';
+import manufactureRoute from './routes/manufactureRoute';
+import productRoute from './routes/productRoute';
+import categoryRoute from './routes/categoryRoute';
+import commentRoute from './routes/commentRoute';
+import orderRoute from './routes/orderRoute';
 import defaultErrorHandler from './middlewares/defaultErrorHandler';
 
 const logger = require('./utils/logger')(process.env.APP_NAME);
@@ -15,6 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(`/api/v${process.env.API_VERSION}`, healthCheck);
 app.use('/', homeRoute);
+app.use('/manufacture', manufactureRoute);
+app.use('/product', productRoute);
+app.use('/category', categoryRoute);
+app.use('/comment', commentRoute);
+app.use('/order', orderRoute);
 
 app.use(defaultErrorHandler);
 
