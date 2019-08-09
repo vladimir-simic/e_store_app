@@ -1,0 +1,49 @@
+Add-in Express Registrator Log File: 09/26/2018 14:24:47
+
+Installation directory: C:\Users\Student\AppData\Roaming\Accenture\Accenture External E-mail Validation Add-in\
+Registrator version: 8.4.4395.0
+Operating System: Microsoft Windows 10 Enterprise Edition (build 16299), 64-bit
+Process Owner: Administrator
+Command Line: "C:\Users\Student\AppData\Roaming\Accenture\Accenture External E-mail Validation Add-in\adxregistrator.exe" /uninstall="AccentureExternalEmailValidationAddin.dll" /privileges=user
+Run 'As Administrator': Yes
+Process Elevated: Yes
+Integrity Level: High
+UAC (User Account Control): On
+--------------------------------------------------------------
+14:24:47 0632 Starting the add-in unregistration process.
+14:24:47 0632 Loading mscoree.dll
+14:24:47 0632 Success.
+14:24:47 0632 .NET Framework installation directory: 
+14:24:47 0632 The latest version of .NET Framework: 'v4.0.30319'
+14:24:47 0632 Loading CLR: v4.0.30319.
+14:24:47 0632 Calling CLRCreateInstance method.
+14:24:48 0632 Success.
+14:24:48 0632 Calling GetRuntime method.
+14:24:48 0632 Success.
+14:24:48 0632 Checking if the hosting API of .NET Framework v4.0 beta is installed.
+14:24:48 0632 The hosting API is up to date.
+14:24:48 0632 Calling GetInterface method for the CorRuntimeHost interface.
+14:24:48 0632 Success.
+14:24:48 0632 Starting CLR...
+14:24:48 0632 Success.
+14:24:48 0632 Getting the CLR version.
+14:24:48 0632 The CLR v4.0.30319 has been initialized successfully.
+14:24:48 0632 Creating a new domain setup.
+14:24:48 0632 Success.
+14:24:48 0632 Getting the add-in directory.
+14:24:48 0632 Success. The directory is 'C:\Users\Student\AppData\Roaming\Accenture\Accenture External E-mail Validation Add-in\'
+14:24:48 0632 The 'shadow copy' is disabled.
+14:24:48 0632 Creating a new application domain.
+14:24:48 0632 Success.
+14:24:48 0632 Getting the base directory for the domain.
+14:24:48 0632 Success. The directory is 'C:\Users\Student\AppData\Roaming\Accenture\Accenture External E-mail Validation Add-in\'.
+14:24:48 0632 Searching for the Add-in Express core library.
+14:24:48 0632 Success. The 'AddinExpress.MSO.2005.dll' file is found.
+14:24:48 0632 Creating an instance of the 'AddinExpress.Deployment.ADXRegistrator' class.
+14:24:48 0632 Assembly identity is 'AddinExpress.MSO.2005'.
+14:24:48 0632 Success.
+14:24:48 0632 Unwrapping the instance of the 'AddinExpress.Deployment.ADXRegistrator' class.
+14:24:48 0632 Success.
+14:24:48 0632 Calling the managed unregistration procedure (DISPID = 1610743823).
+14:24:48 0632 Unregistration success.
+14:24:48 0632 The add-in unregistration process is completed with HRESULT = 0.

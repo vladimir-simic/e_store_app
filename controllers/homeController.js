@@ -1,58 +1,29 @@
+import mysql from 'mysql';
 import AppError from '../errors/AppError';
-import makeQuery from '../service/MysqlConnection';
 
-const userAction = async (req, res, next) => {
+const homeAction = async (req, res, next) => {
   try {
-    const sql = 'select * from users';
-    const data = await makeQuery(sql);
-
-    res.json(data);
-  } catch (err) {
-    next(new AppError(err.message, 400));
-  }
-};
-
-const getUserById = async (req, res, next) => {
-  const { userId } = req.params;
-
-  try {
-    const sql = 'select * from users where id = ?';
-    const data = await makeQuery(sql, userId);
-
-    res.json(data);
-  } catch (err) {
-    next(new AppError(err.message, 400));
-  }
-};
-
-const addNewUser = async (req, res) => {
-  const { body } = req;
-  const {
-      first_name,
-      last_name,
-      password,
-      email,
-      is_active,
-      image
-  } = body;
-
-  const sql = `insert into users set ?`;
-
-
-  try{
-    const data = await makeQuery(sql, {
-      first_name,
-      last_name,
-      password,
-      email,
-      is_active,
-      image
+    const connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
     });
 
-    res.status(201).send(data);
-  }catch(error){
-    next(new AppError(error.message, 400));
+    connection.connect();
+
+    connection.query('SELECT * from users', null, (error, results, fields) => {
+      if (error) {
+        console.log(error);
+      }
+
+      if (results) {
+        res.json(results);
+      }
+    });
+  } catch (err) {
+    next(new AppError(err.message, 400));
   }
 };
 
-export { userAction, getUserById, addNewUser };
+export default homeAction;

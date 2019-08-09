@@ -1,12 +1,12 @@
 import AppError from '../errors/AppError';
-import makeQuery from '../service/MysqlConnection';
+import makeQuery from '../service/mySqlConnection';
 
 const getProductFromDB = productId => {
   const sql = 'select * from products where id = ?';
   return makeQuery(sql, productId);
 };
 
-const productAction = async (req, res, next) => {
+const userAction = async (req, res, next) => {
   try {
     const sql = 'select * from products';
     const data = await makeQuery(sql);
@@ -24,7 +24,7 @@ const getProductById = async (req, res, next) => {
     const data = await getProductFromDB(productId);
 
     if (data.length === 0) {
-      res.status(404).send('Page not found');
+      res.status(404).send('Product not found');
       return;
     }
 
@@ -41,7 +41,7 @@ const modifyProduct = async (req, res, next) => {
     const data = await getProductFromDB(productId);
 
     if (data.length === 0) {
-      res.status(404).send('Page not found');
+      res.status(404).send('Product not found');
       return;
     }
   }
@@ -49,7 +49,7 @@ const modifyProduct = async (req, res, next) => {
   const { body } = req;
 
   const sql = `${!productId ? 'insert into' : 'update'} products set ? ${
-      !productId ? '' : ' where id = ?'
+    !productId ? '' : ' where id = ?'
   }`;
 
   try {
@@ -60,4 +60,25 @@ const modifyProduct = async (req, res, next) => {
   }
 };
 
-export { productAction, getProductById, modifyProduct };
+const deleteProduct = async (req, res, next) => {
+  const { productId } = req.params;
+
+  if (productId) {
+    const data = await getProductFromDB(productId);
+
+    if (data.length === 0) {
+      res.status(404).send('Product not found');
+      return;
+    }
+  }
+
+  const sql = `delete from products where id = ?`;
+  try {
+    const data = await makeQuery(sql, productId);
+    res.status(202).send(data);
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+export { userAction, getProductById, modifyProduct, deleteProduct };
