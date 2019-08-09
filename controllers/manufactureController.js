@@ -1,31 +1,56 @@
 import mysql from 'mysql';
 import AppError from '../errors/AppError';
+import makeQuery from "../service/mySqlConnection";
 
-const logger = require('../utils/logger')('manufactureController');
+// const logger = require('../utils/logger')('manufactureController');
 
 const manufactureAction = async (req, res, next) => {
-  logger.log('info', `healthCheck: ${JSON.stringify(req.params)}`);
   try {
-    const connection = mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-    });
+    const sql = 'select * from products';
+    const data = await makeQuery(sql);
 
-    connection.connect();
-
-    const result = connection.query('SELECT * FROM manufacture', null, (error, result, fields) => {
-      if (error) {
-        console.log(error);
-      }
-      if (result) {
-        res.json(result);
-      }
-    });
-  } catch (error) {
+    res.json(data);
+  } catch (err) {
     next(new AppError(err.message, 400));
   }
 };
 
-export default manufactureAction;
+const getManufactureById = async (req, res, next) => {
+  const { manufactureId } = req.params;
+
+  try {
+    const sql = 'select * from manufacturers where id = ?';
+    const data = await makeQuery(sql, manufactureId);
+
+    res.json(data);
+  } catch (err) {
+    next(new AppError(err.message, 400));
+  }
+};
+
+const addNewManufacture = async (req, res) => {
+  const { body } = req;
+  const {
+    title,
+    description,
+    picture
+  } = body;
+
+  const sql = `insert into manufacturers set ?`;
+
+
+  try{
+    const data = await makeQuery(sql, {
+      title,
+      description,
+      picture
+    });
+
+    res.status(201).send(data);
+  }catch(error){
+    next(new AppError(error.message, 400));
+  }
+};
+
+
+export { manufactureAction, getManufactureById, addNewManufacture };

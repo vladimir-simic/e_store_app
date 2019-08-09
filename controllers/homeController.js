@@ -1,31 +1,58 @@
-import mysql from 'mysql';
 import AppError from '../errors/AppError';
+import makeQuery from '../service/MysqlConnection';
 
-const logger = require('../utils/logger')('homeController');
-
-const indexAction = async (req, res, next) => {
-  logger.log('info', `healthCheck: ${JSON.stringify(req.params)}`);
+const userAction = async (req, res, next) => {
   try {
-    const connection = mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-    });
+    const sql = 'select * from users';
+    const data = await makeQuery(sql);
 
-    connection.connect();
-
-    const result = connection.query('SELECT * FROM user', null, (error, result, fields) => {
-      if (error) {
-        console.log(error);
-      }
-      if (result) {
-        res.json(result);
-      }
-    });
-  } catch (error) {
+    res.json(data);
+  } catch (err) {
     next(new AppError(err.message, 400));
   }
 };
 
-export default indexAction;
+const getUserById = async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const sql = 'select * from users where id = ?';
+    const data = await makeQuery(sql, userId);
+
+    res.json(data);
+  } catch (err) {
+    next(new AppError(err.message, 400));
+  }
+};
+
+const addNewUser = async (req, res) => {
+  const { body } = req;
+  const {
+      first_name,
+      last_name,
+      password,
+      email,
+      is_active,
+      image
+  } = body;
+
+  const sql = `insert into users set ?`;
+
+
+  try{
+    const data = await makeQuery(sql, {
+      first_name,
+      last_name,
+      password,
+      email,
+      is_active,
+      image
+    });
+
+    res.status(201).send(data);
+  }catch(error){
+    next(new AppError(error.message, 400));
+  }
+};
+
+export { userAction, getUserById, addNewUser };

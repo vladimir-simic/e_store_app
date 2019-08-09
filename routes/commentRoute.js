@@ -1,8 +1,10 @@
 import express from 'express';
-import commentAction from "../controllers/commentController";
+import { commentAction, getCommentById, addNewComment } from '../controllers/CommentController';
 
 const router = express.Router();
 
 router.get('/', commentAction);
+router.post('/', addNewComment);
+router.get('/:productId', getCommentById);
 
 export default router;
